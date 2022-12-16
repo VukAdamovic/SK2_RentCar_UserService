@@ -28,10 +28,15 @@ public class LoginServiceImpl implements LoginService {
     public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
         //Try to find active user for specified credentials
         User user = userRepository
-                .findUserByUsernameAndPassword(tokenRequestDto.getEmail(), tokenRequestDto.getPassword())
+                .findUserByEmailAndPassword(tokenRequestDto.getEmail(), tokenRequestDto.getPassword())
                 .orElseThrow(() -> new NotFoundException(String
                         .format("User with email: %s and password: %s not found.", tokenRequestDto.getEmail(),
                                 tokenRequestDto.getPassword())));
+
+
+        if(user.isForbidden()){
+            return  new TokenResponseDto("Nemas dozvolu da pristupis app");
+        }
 
         //Create token payload
         Claims claims = Jwts.claims();

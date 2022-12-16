@@ -23,7 +23,7 @@ public class ManageController {
 
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<ManagerDto>> getAllManagers(@RequestHeader("authorization") String authorization, Pageable pageable){
         return new ResponseEntity<>(managerService.findAll(pageable), HttpStatus.OK);
     }
@@ -42,13 +42,13 @@ public class ManageController {
     }
     //---------------------
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<Boolean> deleteManager(@PathVariable("id") Long id) {
         return new ResponseEntity<>(managerService.delete(id), HttpStatus.OK);
     }
 
-    @PutMapping("/edit")
+    @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<ManagerDto> updateManager(@RequestBody ManagerDto managerDto) {
         return new ResponseEntity<>(managerService.update(managerDto), HttpStatus.OK);

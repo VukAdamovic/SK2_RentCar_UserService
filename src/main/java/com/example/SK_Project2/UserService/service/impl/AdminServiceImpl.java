@@ -62,13 +62,6 @@ public class AdminServiceImpl implements AdminService {
         userRepository.save(user);
 
         return adminMapper.userToAdminDto(user);
-
-        //A sta sa ovim vrednostima koje nemam u ClientDto,
-//        user.setRentCarTotalDuration(0);
-//        user.setForbidden(false);
-//        user.setRole(roleRepository.findByName("ROLE_MANAGER").get());
-//        user.setCompanyName(managerDto.getCompanyName());
-//        user.setEmploymentDay(managerDto.getEmploymentDay());
     }
 
     @Override

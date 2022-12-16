@@ -22,7 +22,7 @@ public class ClientController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<ClientDto>> getAllClients(@RequestHeader("authorization") String authorization, Pageable pageable){
         return new ResponseEntity<>(clientService.findAll(pageable), HttpStatus.OK);
     }
@@ -41,22 +41,22 @@ public class ClientController {
     }
     //---------------------
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<Boolean> deleteClient(@PathVariable("id") Long id) {
         return new ResponseEntity<>(clientService.delete(id), HttpStatus.OK);
     }
 
-    @PutMapping("/edit")
+    @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<ClientDto> updateClient(@RequestBody ClientDto clientDto) {
         return new ResponseEntity<>(clientService.update(clientDto), HttpStatus.OK);
     }
 
-    @PutMapping("/addReservation/{id},{days}")
-    @CheckSecurity(roles = {"ROLE_CLIENT"})
-    public ResponseEntity<Boolean> addReservation(@PathVariable("id,days") Long id, Integer days) {
-        return new ResponseEntity<>(clientService.addReservation(id,days), HttpStatus.OK);
-    }
+//    @PutMapping("/addReservation/{id}/{days}")
+//    @CheckSecurity(roles = {"ROLE_CLIENT"})
+//    public ResponseEntity<Boolean> addReservation(@PathVariable("id,days") Long id, Integer days) {
+//        return new ResponseEntity<>(clientService.addReservation(id,days), HttpStatus.OK);
+//    }
 
 }

@@ -88,14 +88,6 @@ public class ClientServiceImpl implements ClientService {
         userRepository.save(user);
 
         return clientMapper.userToClientDto(user);
-
-        //A sta sa ovim vrednostima koje nemam u ClientDto,
-//        user.setRentCarTotalDuration(0);
-//        user.setCompanyName(null);
-//        user.setEmploymentDay(null);
-//        user.setForbidden(false);
-//        user.setRole(roleRepository.findByName("ROLE_CLIENT").get());
-
     }
 
     @Override

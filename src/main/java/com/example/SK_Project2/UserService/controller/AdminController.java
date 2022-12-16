@@ -25,7 +25,7 @@ public class AdminController {
 
     // ------------------------
 
-    @PutMapping("/edit")
+    @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<AdminDto> updateAdmin(@RequestBody AdminDto adminDto) {
         return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
@@ -37,9 +37,9 @@ public class AdminController {
         return new ResponseEntity<>(adminService.forbid(id), HttpStatus.OK);
     }
 
-    @PutMapping("/setRank/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Boolean> setRank(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(adminService.setRank(id), HttpStatus.OK);
-    }
+//    @PostMapping("/setRank")
+//    @CheckSecurity(roles = {"ROLE_ADMIN"})
+//    public ResponseEntity<Boolean> setRank(@PathVariable("id") Long id) {
+//        return new ResponseEntity<>(adminService.setRank(rankDto), HttpStatus.OK);
+//    }
 }

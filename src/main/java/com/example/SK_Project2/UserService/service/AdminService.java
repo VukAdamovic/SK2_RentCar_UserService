@@ -9,6 +9,6 @@ public interface AdminService {
     AdminDto update(AdminDto adminDto);
 
     Boolean forbid(Long id);
-    Boolean setRank(Long id);
+    Boolean setRank(Long id); //rankDto name od do ,  nema id
 
 }

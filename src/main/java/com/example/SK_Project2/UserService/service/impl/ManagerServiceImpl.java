@@ -87,29 +87,5 @@ public class ManagerServiceImpl implements ManagerService {
         userRepository.save(user);
 
         return managerMapper.userToManagerDto(user);
-
-        //A sta sa ovim vrednostima koje nemam u ClientDto,
-//        user.setRentCarTotalDuration(0);
-//        user.setForbidden(false);
-//        user.setRole(roleRepository.findByName("ROLE_MANAGER").get());
     }
-
-    //---------------------
-//    @Override
-//    public DiscountDto findDiscount(Long id) {
-//        User user = userRepository
-//                .findById(id)
-//                .orElseThrow(() -> new NotFoundException(String
-//                        .format("User with id: %d not found.", id)));
-//        List<UserStatus> userStatusList = userStatusRepository.findAll();
-//        //get discount
-//        Integer discount = userStatusList.stream()
-//                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
-//                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
-//                .findAny()
-//                .get()
-//                .getDiscount();
-//        return new DiscountDto(discount);
-//    }
-
 }
