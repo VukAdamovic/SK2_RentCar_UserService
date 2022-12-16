@@ -29,27 +29,27 @@ public class ClientController {
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
-    public ResponseEntity<ClientDto> getClientById(@PathVariable("id") Long id){
+    public ResponseEntity<ClientDto> getClientById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(clientService.findById(id), HttpStatus.OK);
     }
     //---------------------
 
     @PostMapping("/registration")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
-    public ResponseEntity<ClientDto> registerClient(@RequestBody ClientCreateDto clientCreateDto) {
+    public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
     //---------------------
 
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
-    public ResponseEntity<Boolean> deleteClient(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteClient(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(clientService.delete(id), HttpStatus.OK);
     }
 
     @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
-    public ResponseEntity<ClientDto> updateClient(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<ClientDto> updateClient(@RequestHeader("authorization") String authorization,@RequestBody ClientDto clientDto) {
         return new ResponseEntity<>(clientService.update(clientDto), HttpStatus.OK);
     }
 

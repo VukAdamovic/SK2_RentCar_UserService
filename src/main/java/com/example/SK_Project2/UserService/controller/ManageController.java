@@ -30,27 +30,27 @@ public class ManageController {
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
-    public ResponseEntity<ManagerDto> getManagerById(@PathVariable("id") Long id){
+    public ResponseEntity<ManagerDto> getManagerById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(managerService.findById(id), HttpStatus.OK);
     }
     //---------------------
 
     @PostMapping("/registration")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<ManagerDto> registerManager(@RequestBody ManagerCreateDto managerCreateDto) {
+    public ResponseEntity<ManagerDto> registerManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerCreateDto managerCreateDto) {
         return new ResponseEntity<>(managerService.add(managerCreateDto), HttpStatus.CREATED);
     }
     //---------------------
 
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
-    public ResponseEntity<Boolean> deleteManager(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteManager(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(managerService.delete(id), HttpStatus.OK);
     }
 
     @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
-    public ResponseEntity<ManagerDto> updateManager(@RequestBody ManagerDto managerDto) {
+    public ResponseEntity<ManagerDto> updateManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerDto managerDto) {
         return new ResponseEntity<>(managerService.update(managerDto), HttpStatus.OK);
     }
 

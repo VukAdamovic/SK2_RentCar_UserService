@@ -19,7 +19,7 @@ public class AdminController {
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<AdminDto> getAdminById(@PathVariable("id") Long id){
+    public ResponseEntity<AdminDto> getAdminById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(adminService.findById(id), HttpStatus.OK);
     }
 
@@ -27,13 +27,13 @@ public class AdminController {
 
     @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<AdminDto> updateAdmin(@RequestBody AdminDto adminDto) {
+    public ResponseEntity<AdminDto> updateAdmin(@RequestHeader("authorization") String authorization,@RequestBody AdminDto adminDto) {
         return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
     }
 
     @PutMapping("/forbid/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Boolean> forbid(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> forbid(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(adminService.forbid(id), HttpStatus.OK);
     }
 

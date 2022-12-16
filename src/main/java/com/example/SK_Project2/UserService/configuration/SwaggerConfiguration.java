@@ -12,17 +12,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
-@Configuration
-@EnableSwagger2
+//@Configuration
+//@EnableSwagger2
 public class SwaggerConfiguration {
 
-    @Bean
+//    @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
-                .select().apis(RequestHandlerSelectors.basePackage(AdminController.class.getPackage().getName()))
-                .build()
-                .apiInfo(metaData());
+                .select().apis(RequestHandlerSelectors.any())
+                .build();
     }
 
     private ApiInfo metaData() {
