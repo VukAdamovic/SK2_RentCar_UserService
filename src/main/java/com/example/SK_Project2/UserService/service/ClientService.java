@@ -1,5 +1,6 @@
 package com.example.SK_Project2.UserService.service;
 
+import com.example.SK_Project2.UserService.dto.DiscountDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ public interface ClientService {
     ClientDto update(ClientDto clientDto);
 
     Boolean addReservation(Long id, Integer days);
+    DiscountDto findDiscount(Long id);
 
 
 
