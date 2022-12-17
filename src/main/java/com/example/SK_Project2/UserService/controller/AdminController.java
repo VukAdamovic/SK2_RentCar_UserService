@@ -1,5 +1,7 @@
 package com.example.SK_Project2.UserService.controller;
 
+import com.example.SK_Project2.UserService.dto.RankCreateDto;
+import com.example.SK_Project2.UserService.dto.RankDto;
 import com.example.SK_Project2.UserService.dto.user.AdminDto;
 import com.example.SK_Project2.UserService.security.CheckSecurity;
 import com.example.SK_Project2.UserService.service.AdminService;
@@ -36,10 +38,10 @@ public class AdminController {
     public ResponseEntity<Boolean> forbid(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(adminService.forbid(id), HttpStatus.OK);
     }
-
-//    @PostMapping("/setRank")
-//    @CheckSecurity(roles = {"ROLE_ADMIN"})
-//    public ResponseEntity<Boolean> setRank(@PathVariable("id") Long id) {
-//        return new ResponseEntity<>(adminService.setRank(rankDto), HttpStatus.OK);
-//    }
+    //--------------------------
+    @PostMapping("/setRank")
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    public ResponseEntity<RankDto> addRank(@RequestHeader("authorization") String authorization,@RequestBody RankCreateDto rankCreateDto){
+        return new ResponseEntity<>(adminService.addUserStatusRank(rankCreateDto),HttpStatus.OK);
+    }
 }

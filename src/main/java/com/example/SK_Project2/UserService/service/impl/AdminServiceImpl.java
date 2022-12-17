@@ -9,6 +9,7 @@ import com.example.SK_Project2.UserService.dto.user.*;
 import com.example.SK_Project2.UserService.exception.AccessForbidden;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
 import com.example.SK_Project2.UserService.mapper.AdminMapper;
+import com.example.SK_Project2.UserService.mapper.RankMapper;
 import com.example.SK_Project2.UserService.repository.RoleRepository;
 import com.example.SK_Project2.UserService.repository.UserRepository;
 import com.example.SK_Project2.UserService.repository.UserStatusRepository;
@@ -31,12 +32,15 @@ public class AdminServiceImpl implements AdminService {
     private RoleRepository roleRepository;
     private UserStatusRepository userStatusRepository;
     private AdminMapper adminMapper;
+    private RankMapper rankMapper;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository,UserStatusRepository userStatusRepository, AdminMapper adminMapper) {
+    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                            UserStatusRepository userStatusRepository, AdminMapper adminMapper, RankMapper rankMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userStatusRepository = userStatusRepository;
         this.adminMapper = adminMapper;
+        this.rankMapper = rankMapper;
     }
 
     @Override
@@ -75,16 +79,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Boolean setRank(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
+    public RankDto addUserStatusRank(RankCreateDto rankCreateDto) {
+        UserStatus rank = rankMapper.rankCreateDtoToUserStatus(rankCreateDto);
+        userStatusRepository.save(rank);
 
-        if(!user.getRole().getName().equals("ROLE_CLIENT")){
-            throw new AccessForbidden(String.format("User with id: %d does not have ROLE_CLIENT.", id));
-        }
-
-        return true;
-
+        return rankMapper.userStatusToRankDto(rank);
     }
 
 }
