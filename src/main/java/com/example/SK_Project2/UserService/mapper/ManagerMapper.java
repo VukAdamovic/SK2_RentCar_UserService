@@ -34,18 +34,6 @@ public class ManagerMapper {
         managerDto.setEmploymentDay(user.getEmploymentDay());
         managerDto.setForbidden(user.isForbidden());
 
-
-        //get Rank
-        List<UserStatus> userStatusList = userStatusRepository.findAll();
-        String rank = userStatusList.stream()
-                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
-                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
-                .findAny()
-                .get()
-                .getName();
-
-        managerDto.setRank(rank);
-
         return managerDto;
     }
 

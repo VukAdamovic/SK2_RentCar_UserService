@@ -11,7 +11,6 @@ public class ManagerDto {
     private String companyName;
     private String employmentDay;
     private boolean forbidden;
-    private String rank;
 
     public ManagerDto() {
     }
@@ -96,11 +95,4 @@ public class ManagerDto {
         this.forbidden = forbidden;
     }
 
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
 }
