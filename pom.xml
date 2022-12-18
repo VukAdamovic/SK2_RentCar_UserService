@@ -63,7 +63,7 @@
         <!-- AMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
             <version>2.1.3.RELEASE</version>
         </dependency>
         <dependency>
@@ -75,6 +75,7 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-kahadb-store</artifactId>
             <version>5.15.8</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

@@ -3,12 +3,14 @@ package com.example.SK_Project2.UserService.controller;
 
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
+import com.example.SK_Project2.UserService.messageHelper.MessageHelper;
 import com.example.SK_Project2.UserService.security.CheckSecurity;
 import com.example.SK_Project2.UserService.service.ClientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +18,20 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
 
     private ClientService clientService;
+
+    private JmsTemplate jmsTemplate;
+
+    private MessageHelper messageHelper;
+
+    private String registrationDestination;
+
+
+//    public ClientController(ClientService clientService, JmsTemplate jmsTemplate, MessageHelper messageHelper, String registrationDestination) {
+//        this.clientService = clientService;
+//        this.jmsTemplate = jmsTemplate;
+//        this.messageHelper = messageHelper;
+//        this.registrationDestination = registrationDestination;
+//    }
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
@@ -37,6 +53,7 @@ public class ClientController {
     @PostMapping("/registration")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
+        //jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(clientCreateDto));
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
     //---------------------
