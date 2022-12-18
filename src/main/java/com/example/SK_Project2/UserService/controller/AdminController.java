@@ -20,7 +20,7 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<AdminDto> getAdminById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(adminService.findById(id), HttpStatus.OK);
     }

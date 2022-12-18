@@ -27,6 +27,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
         //Try to find active user for specified credentials
+
+
         User user = userRepository
                 .findUserByEmailAndPassword(tokenRequestDto.getEmail(), tokenRequestDto.getPassword())
                 .orElseThrow(() -> new NotFoundException(String
@@ -34,10 +36,10 @@ public class LoginServiceImpl implements LoginService {
                                 tokenRequestDto.getPassword())));
 
 
+
         if(user.isForbidden()){
             return  new TokenResponseDto("Nemas dozvolu da pristupis app");
         }
-
         //Create token payload
         Claims claims = Jwts.claims();
         claims.put("id", user.getId());
