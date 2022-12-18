@@ -33,7 +33,6 @@ public class ClientMapper {
         clientDto.setLastName(user.getLastName());
         clientDto.setPassport(user.getPassport());
         clientDto.setRentCarTotalDuration(user.getRentCarTotalDuration());
-        clientDto.setForbidden(user.isForbidden());
 
         //get Rank and set Rank
         List<UserStatus> userStatusList = userStatusRepository.findAll();

@@ -24,7 +24,6 @@ public class AdminMapper {
         adminDto.setDayOfBirth(user.getDayOfBirth());
         adminDto.setFirstName(user.getFirstName());
         adminDto.setLastName(user.getLastName());
-        adminDto.setForbidden(user.isForbidden());
 
         return adminDto;
     }

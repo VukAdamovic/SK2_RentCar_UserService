@@ -8,7 +8,6 @@ public class AdminDto {
     private String dayOfBirth;
     private String firstName;
     private String lastName;
-    private boolean forbidden;
 
     public AdminDto() {
     }
@@ -69,11 +68,4 @@ public class AdminDto {
         this.lastName = lastName;
     }
 
-    public boolean isForbidden() {
-        return forbidden;
-    }
-
-    public void setForbidden(boolean forbidden) {
-        this.forbidden = forbidden;
-    }
 }

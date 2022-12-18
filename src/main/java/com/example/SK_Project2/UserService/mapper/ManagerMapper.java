@@ -32,7 +32,6 @@ public class ManagerMapper {
         managerDto.setLastName(user.getLastName());
         managerDto.setCompanyName(user.getCompanyName());
         managerDto.setEmploymentDay(user.getEmploymentDay());
-        managerDto.setForbidden(user.isForbidden());
 
         return managerDto;
     }

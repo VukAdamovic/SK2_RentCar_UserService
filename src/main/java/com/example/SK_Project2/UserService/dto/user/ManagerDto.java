@@ -10,7 +10,6 @@ public class ManagerDto {
     private String lastName;
     private String companyName;
     private String employmentDay;
-    private boolean forbidden;
 
     public ManagerDto() {
     }
@@ -85,14 +84,6 @@ public class ManagerDto {
 
     public void setEmploymentDay(String employmentDay) {
         this.employmentDay = employmentDay;
-    }
-
-    public boolean isForbidden() {
-        return forbidden;
-    }
-
-    public void setForbidden(boolean forbidden) {
-        this.forbidden = forbidden;
     }
 
 }

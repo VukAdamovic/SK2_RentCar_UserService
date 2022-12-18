@@ -11,7 +11,6 @@ public class ClientDto {
     private String passport;
     private Integer rentCarTotalDuration;
     private String rank;
-    private boolean forbidden;
 
     public ClientDto() {
     }
@@ -86,14 +85,6 @@ public class ClientDto {
 
     public void setRentCarTotalDuration(Integer rentCarTotalDuration) {
         this.rentCarTotalDuration = rentCarTotalDuration;
-    }
-
-    public boolean isForbidden() {
-        return forbidden;
-    }
-
-    public void setForbidden(boolean forbidden) {
-        this.forbidden = forbidden;
     }
 
     public String getRank() {
