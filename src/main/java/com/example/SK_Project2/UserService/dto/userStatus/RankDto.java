@@ -1,4 +1,4 @@
-package com.example.SK_Project2.UserService.dto;
+package com.example.SK_Project2.UserService.dto.userStatus;
 
 public class RankDto {
 

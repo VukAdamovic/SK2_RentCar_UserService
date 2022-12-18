@@ -16,7 +16,7 @@ public interface ClientService {
     Boolean delete(Long id);
     ClientDto update(ClientDto clientDto);
 
-    Boolean addReservation(Long id, Integer days);
+    void incrementRentCar(Long id, Integer days);
     DiscountDto findDiscount(Long id);
 
 

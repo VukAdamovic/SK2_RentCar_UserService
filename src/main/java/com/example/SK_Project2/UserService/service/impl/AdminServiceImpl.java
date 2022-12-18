@@ -2,28 +2,18 @@ package com.example.SK_Project2.UserService.service.impl;
 
 import com.example.SK_Project2.UserService.domain.User;
 import com.example.SK_Project2.UserService.domain.UserStatus;
-import com.example.SK_Project2.UserService.dto.*;
-import com.example.SK_Project2.UserService.dto.token.TokenRequestDto;
-import com.example.SK_Project2.UserService.dto.token.TokenResponseDto;
 import com.example.SK_Project2.UserService.dto.user.*;
-import com.example.SK_Project2.UserService.exception.AccessForbidden;
+import com.example.SK_Project2.UserService.dto.userStatus.RankCreateDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
 import com.example.SK_Project2.UserService.mapper.AdminMapper;
 import com.example.SK_Project2.UserService.mapper.RankMapper;
 import com.example.SK_Project2.UserService.repository.RoleRepository;
 import com.example.SK_Project2.UserService.repository.UserRepository;
 import com.example.SK_Project2.UserService.repository.UserStatusRepository;
-import com.example.SK_Project2.UserService.security.service.TokenService;
 import com.example.SK_Project2.UserService.service.AdminService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional

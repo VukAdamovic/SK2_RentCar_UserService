@@ -1,8 +1,8 @@
 package com.example.SK_Project2.UserService.service;
 
 
-import com.example.SK_Project2.UserService.dto.RankCreateDto;
-import com.example.SK_Project2.UserService.dto.RankDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankCreateDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankDto;
 import com.example.SK_Project2.UserService.dto.user.*;
 
 public interface AdminService {

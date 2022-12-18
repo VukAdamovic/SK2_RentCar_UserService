@@ -1,7 +1,7 @@
 package com.example.SK_Project2.UserService.controller;
 
-import com.example.SK_Project2.UserService.dto.RankCreateDto;
-import com.example.SK_Project2.UserService.dto.RankDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankCreateDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankDto;
 import com.example.SK_Project2.UserService.dto.user.AdminDto;
 import com.example.SK_Project2.UserService.security.CheckSecurity;
 import com.example.SK_Project2.UserService.service.AdminService;

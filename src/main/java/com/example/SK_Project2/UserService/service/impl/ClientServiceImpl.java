@@ -4,6 +4,7 @@ import com.example.SK_Project2.UserService.domain.Role;
 import com.example.SK_Project2.UserService.domain.User;
 import com.example.SK_Project2.UserService.domain.UserStatus;
 import com.example.SK_Project2.UserService.dto.DiscountDto;
+import com.example.SK_Project2.UserService.dto.IncrementRentCarDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
@@ -98,12 +99,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override // ovo zove onaj lisener a ne controller da znas
-    public Boolean addReservation(Long id, Integer days) {
+    public void incrementRentCar(Long id, Integer days) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
         user.setRentCarTotalDuration(user.getRentCarTotalDuration() + days);
-
-        return true;
+        userRepository.save(user);
     }
 
     @Override
@@ -122,7 +122,6 @@ public class ClientServiceImpl implements ClientService {
                 .getDiscount();
         return new DiscountDto(discount);
     }
-
 }
 
 

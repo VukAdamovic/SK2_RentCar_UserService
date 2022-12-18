@@ -1,8 +1,8 @@
 package com.example.SK_Project2.UserService.mapper;
 
 import com.example.SK_Project2.UserService.domain.UserStatus;
-import com.example.SK_Project2.UserService.dto.RankCreateDto;
-import com.example.SK_Project2.UserService.dto.RankDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankCreateDto;
+import com.example.SK_Project2.UserService.dto.userStatus.RankDto;
 import org.springframework.stereotype.Component;
 
 @Component
