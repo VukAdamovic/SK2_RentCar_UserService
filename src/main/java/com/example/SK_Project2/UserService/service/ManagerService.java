@@ -2,11 +2,12 @@ package com.example.SK_Project2.UserService.service;
 
 import com.example.SK_Project2.UserService.dto.user.ManagerCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ManagerDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+
+import java.util.List;
 
 public interface ManagerService {
-    Page<ManagerDto> findAll(Pageable pageable);
+    List<ManagerDto> findAll();
 
     ManagerDto findById(Long id);
 

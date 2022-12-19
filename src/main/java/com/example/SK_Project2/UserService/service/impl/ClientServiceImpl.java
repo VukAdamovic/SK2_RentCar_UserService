@@ -4,17 +4,17 @@ import com.example.SK_Project2.UserService.domain.Role;
 import com.example.SK_Project2.UserService.domain.User;
 import com.example.SK_Project2.UserService.domain.UserStatus;
 import com.example.SK_Project2.UserService.dto.DiscountDto;
-import com.example.SK_Project2.UserService.dto.IncrementRentCarDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
 import com.example.SK_Project2.UserService.mapper.ClientMapper;
+import com.example.SK_Project2.UserService.messageHelper.MessageHelper;
 import com.example.SK_Project2.UserService.repository.RoleRepository;
 import com.example.SK_Project2.UserService.repository.UserRepository;
 import com.example.SK_Project2.UserService.repository.UserStatusRepository;
 import com.example.SK_Project2.UserService.service.ClientService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,26 +29,32 @@ public class ClientServiceImpl implements ClientService {
     private RoleRepository roleRepository;
     private UserStatusRepository userStatusRepository;
     private ClientMapper clientMapper;
-
+    private JmsTemplate jmsTemplate;
+    private MessageHelper messageHelper;
+    private String registrationDestination;
 
     public ClientServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                             UserStatusRepository userStatusRepository, ClientMapper clientMapper) {
+                             UserStatusRepository userStatusRepository, ClientMapper clientMapper,
+                             JmsTemplate jmsTemplate, MessageHelper messageHelper, @Value("${destination.incrementRentCar}") String registrationDestination) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userStatusRepository = userStatusRepository;
         this.clientMapper = clientMapper;
+        this.jmsTemplate = jmsTemplate;
+        this.messageHelper = messageHelper;
+        this.registrationDestination = registrationDestination;
     }
 
     @Override
-    public Page<ClientDto> findAll(Pageable pageable) {
+    public List<ClientDto> findAll() {
         List<ClientDto> clients = new ArrayList<>();
-        userRepository.findAll(pageable)
+        userRepository.findAll()
                 .forEach(user -> {
                             if (user.getRole().getName().equals("ROLE_CLIENT"))
                                 clients.add(clientMapper.userToClientDto(user));
                         }
                 );
-        return (Page<ClientDto>) clients;
+        return clients;
     }
 
     @Override
@@ -67,6 +73,7 @@ public class ClientServiceImpl implements ClientService {
         client.setRole(role);
         userRepository.save(client);
 
+        jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(clientCreateDto));
         return clientMapper.userToClientDto(client);
     }
 
@@ -103,6 +110,7 @@ public class ClientServiceImpl implements ClientService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
         user.setRentCarTotalDuration(user.getRentCarTotalDuration() + days);
+        //setuj mu novi rank
         userRepository.save(user);
     }
 

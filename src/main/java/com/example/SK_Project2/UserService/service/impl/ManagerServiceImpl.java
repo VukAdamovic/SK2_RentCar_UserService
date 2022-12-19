@@ -6,11 +6,12 @@ import com.example.SK_Project2.UserService.dto.user.ManagerCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ManagerDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
 import com.example.SK_Project2.UserService.mapper.ManagerMapper;
+import com.example.SK_Project2.UserService.messageHelper.MessageHelper;
 import com.example.SK_Project2.UserService.repository.RoleRepository;
 import com.example.SK_Project2.UserService.repository.UserRepository;
 import com.example.SK_Project2.UserService.service.ManagerService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,23 +24,31 @@ public class ManagerServiceImpl implements ManagerService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private ManagerMapper managerMapper;
+    private JmsTemplate jmsTemplate;
+    private MessageHelper messageHelper;
+    private String registrationDestination;
 
-    public ManagerServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ManagerMapper managerMapper) {
+
+    public ManagerServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ManagerMapper managerMapper,
+                              JmsTemplate jmsTemplate, MessageHelper messageHelper, @Value("${destination.incrementRentCar}")String registrationDestination) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.managerMapper = managerMapper;
+        this.jmsTemplate = jmsTemplate;
+        this.messageHelper = messageHelper;
+        this.registrationDestination = registrationDestination;
     }
 
     @Override
-    public Page<ManagerDto> findAll(Pageable pageable) {
+    public List<ManagerDto> findAll() {
         List<ManagerDto> managers = new ArrayList<>();
-        userRepository.findAll(pageable)
+        userRepository.findAll()
                 .forEach( user -> {
                             if (user.getRole().getName().equals("ROLE_MANAGER"))
                                 managers.add(managerMapper.userToManagerDto(user));
                         }
                 );
-        return (Page<ManagerDto>) managers;
+        return  managers;
     }
 
     @Override
@@ -57,6 +66,7 @@ public class ManagerServiceImpl implements ManagerService {
         manager.setRole(role);
         userRepository.save(manager);
 
+        jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(managerCreateDto));
         return managerMapper.userToManagerDto(manager);
     }
 

@@ -3,11 +3,12 @@ package com.example.SK_Project2.UserService.service;
 import com.example.SK_Project2.UserService.dto.DiscountDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+
+import java.util.List;
 
 public interface ClientService {
-    Page<ClientDto> findAll(Pageable pageable);
+    List<ClientDto> findAll();
 
     ClientDto findById(Long id);
 
