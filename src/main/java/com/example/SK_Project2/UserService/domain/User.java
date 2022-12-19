@@ -1,6 +1,6 @@
 package com.example.SK_Project2.UserService.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class User {

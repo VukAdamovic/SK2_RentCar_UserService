@@ -1,6 +1,6 @@
 package com.example.SK_Project2.UserService.dto.userStatus;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 public class RankCreateDto {
 

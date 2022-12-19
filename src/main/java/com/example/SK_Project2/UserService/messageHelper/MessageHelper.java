@@ -2,7 +2,7 @@ package com.example.SK_Project2.UserService.messageHelper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.ConstraintViolation;
+import javax.validation.ConstraintViolation;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 

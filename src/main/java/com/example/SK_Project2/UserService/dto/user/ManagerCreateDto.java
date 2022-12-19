@@ -1,6 +1,6 @@
 package com.example.SK_Project2.UserService.dto.user;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 public class ManagerCreateDto {
