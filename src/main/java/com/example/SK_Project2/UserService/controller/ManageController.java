@@ -39,20 +39,20 @@ public class ManageController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+   // @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<ManagerDto>> getAllManagers(@RequestHeader("authorization") String authorization, Pageable pageable){
         return new ResponseEntity<>(managerService.findAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<ManagerDto> getManagerById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(managerService.findById(id), HttpStatus.OK);
     }
     //---------------------
 
     @PostMapping("/registration")
-    @CheckSecurity(roles = {"ROLE_MANAGER"})
+    //@CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<ManagerDto> registerManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerCreateDto managerCreateDto) {
        //jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(managerCreateDto));
         return new ResponseEntity<>(managerService.add(managerCreateDto), HttpStatus.CREATED);
@@ -60,13 +60,13 @@ public class ManageController {
     //---------------------
 
     @DeleteMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
+   // @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<Boolean> deleteManager(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(managerService.delete(id), HttpStatus.OK);
     }
 
     @PutMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<ManagerDto> updateManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerDto managerDto) {
         return new ResponseEntity<>(managerService.update(managerDto), HttpStatus.OK);
     }

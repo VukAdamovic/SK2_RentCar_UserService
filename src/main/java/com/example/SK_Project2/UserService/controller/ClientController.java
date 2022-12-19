@@ -38,20 +38,20 @@ public class ClientController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<ClientDto>> getAllClients(@RequestHeader("authorization") String authorization, Pageable pageable){
         return new ResponseEntity<>(clientService.findAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<ClientDto> getClientById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(clientService.findById(id), HttpStatus.OK);
     }
     //---------------------
 
     @PostMapping("/registration")
-    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    //@CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
         //jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(clientCreateDto));
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
@@ -59,13 +59,13 @@ public class ClientController {
     //---------------------
 
     @DeleteMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<Boolean> deleteClient(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(clientService.delete(id), HttpStatus.OK);
     }
 
     @PutMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<ClientDto> updateClient(@RequestHeader("authorization") String authorization,@RequestBody ClientDto clientDto) {
         return new ResponseEntity<>(clientService.update(clientDto), HttpStatus.OK);
     }

@@ -9,8 +9,7 @@ public class ClientDto {
     private String firstName;
     private String lastName;
     private String passport;
-    private Integer rentCarTotalDuration;
-    private String rank;
+
 
     public ClientDto() {
     }
@@ -79,19 +78,4 @@ public class ClientDto {
         this.passport = passport;
     }
 
-    public Integer getRentCarTotalDuration() {
-        return rentCarTotalDuration;
-    }
-
-    public void setRentCarTotalDuration(Integer rentCarTotalDuration) {
-        this.rentCarTotalDuration = rentCarTotalDuration;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
 }

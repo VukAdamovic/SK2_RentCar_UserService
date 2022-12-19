@@ -32,18 +32,6 @@ public class ClientMapper {
         clientDto.setFirstName(user.getFirstName());
         clientDto.setLastName(user.getLastName());
         clientDto.setPassport(user.getPassport());
-        clientDto.setRentCarTotalDuration(user.getRentCarTotalDuration());
-
-        //get Rank and set Rank
-        List<UserStatus> userStatusList = userStatusRepository.findAll();
-        String rank = userStatusList.stream()
-                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
-                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
-                .findAny()
-                .get()
-                .getName();
-
-        clientDto.setRank(rank);
 
         return clientDto;
     }
@@ -64,6 +52,17 @@ public class ClientMapper {
         user.setEmploymentDay(null);
         user.setForbidden(false);
         user.setRole(roleRepository.findRoleByName("ROLE_CLIENT").get());
+
+        //get Rank and set Rank
+        List<UserStatus> userStatusList = userStatusRepository.findAll();
+        String rank = userStatusList.stream()
+                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
+                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
+                .findAny()
+                .get()
+                .getName();
+
+        user.setRank(rank);
 
         return user;
     }

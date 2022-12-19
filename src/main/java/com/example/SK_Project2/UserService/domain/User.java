@@ -20,6 +20,7 @@ public class User {
     private String companyName;
     private String employmentDay;
     private boolean forbidden;
+    private String rank;
 
     @ManyToOne
     private Role role;
@@ -137,5 +138,13 @@ public class User {
 
     public void setForbidden(boolean forbidden) {
         this.forbidden = forbidden;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 }

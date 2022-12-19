@@ -28,19 +28,19 @@ public class AdminController {
     // ------------------------
 
     @PutMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<AdminDto> updateAdmin(@RequestHeader("authorization") String authorization,@RequestBody AdminDto adminDto) {
         return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
     }
 
     @PutMapping("/forbid/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Boolean> forbid(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(adminService.forbid(id), HttpStatus.OK);
     }
     //--------------------------
     @PostMapping("/setRank")
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<RankDto> addRank(@RequestHeader("authorization") String authorization,@RequestBody RankCreateDto rankCreateDto){
         return new ResponseEntity<>(adminService.addUserStatusRank(rankCreateDto),HttpStatus.OK);
     }
