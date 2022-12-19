@@ -18,6 +18,8 @@ public interface ClientService {
     ClientDto update(ClientDto clientDto);
 
     void incrementRentCar(Long id, Integer days);
+
+    void decrementRentCar(Long id, Integer days);
     DiscountDto findDiscount(Long id);
 
 

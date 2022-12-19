@@ -109,8 +109,42 @@ public class ClientServiceImpl implements ClientService {
     public void incrementRentCar(Long id, Integer days) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
+
+        //Set rentCarTotalDuration
         user.setRentCarTotalDuration(user.getRentCarTotalDuration() + days);
-        //setuj mu novi rank
+
+        //Set new rank
+        List<UserStatus> userStatusList = userStatusRepository.findAll();
+        String rank = userStatusList.stream()
+                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
+                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
+                .findAny()
+                .get()
+                .getName();
+
+        user.setRank(rank);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void decrementRentCar(Long id, Integer days) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
+
+        //Set rentCarTotalDuration
+        user.setRentCarTotalDuration(user.getRentCarTotalDuration() - days);
+
+        //Set new rank
+        List<UserStatus> userStatusList = userStatusRepository.findAll();
+        String rank = userStatusList.stream()
+                .filter(userStatus -> userStatus.getMaxTotalNumberOfRentCar() >= user.getRentCarTotalDuration()
+                        && userStatus.getMinTotalNumberOfRentCar() <= user.getRentCarTotalDuration())
+                .findAny()
+                .get()
+                .getName();
+
+        user.setRank(rank);
         userRepository.save(user);
     }
 
