@@ -16,6 +16,8 @@ public interface ManagerService {
     Boolean delete(Long id);
     ManagerDto update(ManagerDto managerDto);
 
+    Boolean verificationEmail(String link);
+
 
 
 }

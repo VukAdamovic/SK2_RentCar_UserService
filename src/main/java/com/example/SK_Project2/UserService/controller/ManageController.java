@@ -39,6 +39,12 @@ public class ManageController {
     public ResponseEntity<ManagerDto> registerManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerCreateDto managerCreateDto) {
         return new ResponseEntity<>(managerService.add(managerCreateDto), HttpStatus.CREATED);
     }
+
+    @PostMapping("/registration/{link}")
+    @CheckSecurity(roles = {"ROLE_MANAGER"})
+    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
+        return new ResponseEntity<>(managerService.verificationEmail(link), HttpStatus.OK);
+    }
     //---------------------
 
     @DeleteMapping("/{id}")

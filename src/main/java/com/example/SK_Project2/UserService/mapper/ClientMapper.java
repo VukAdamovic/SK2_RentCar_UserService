@@ -9,6 +9,7 @@ import com.example.SK_Project2.UserService.repository.UserStatusRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ClientMapper {
@@ -26,6 +27,7 @@ public class ClientMapper {
 
         clientDto.setId(user.getId());
         clientDto.setUsername(user.getUsername());
+        clientDto.setPassword(user.getPassword()); //dodao
         clientDto.setEmail(user.getEmail());
         clientDto.setPhone(user.getPhone());
         clientDto.setDayOfBirth(user.getDayOfBirth());
@@ -63,6 +65,12 @@ public class ClientMapper {
                 .getName();
 
         user.setRank(rank);
+
+
+        //Random string - link
+        UUID uuidObj = UUID.randomUUID();
+        String link = uuidObj.toString().replaceAll("_","");
+        user.setActivatedEmail(link);
 
         return user;
     }

@@ -1,6 +1,6 @@
 package com.example.SK_Project2.UserService.service;
 
-import com.example.SK_Project2.UserService.dto.DiscountDto;
+import com.example.SK_Project2.UserService.dto.rental.DiscountDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 
@@ -21,6 +21,8 @@ public interface ClientService {
 
     void decrementRentCar(Long id, Integer days);
     DiscountDto findDiscount(Long id);
+
+    Boolean verificationEmail(String link);
 
 
 

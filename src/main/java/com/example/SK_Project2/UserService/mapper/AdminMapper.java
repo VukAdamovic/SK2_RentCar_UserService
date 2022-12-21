@@ -19,6 +19,7 @@ public class AdminMapper {
 
         adminDto.setId(user.getId());
         adminDto.setUsername(user.getUsername());
+        adminDto.setPassword(user.getPassword());//dodao
         adminDto.setEmail(user.getEmail());
         adminDto.setPhone(user.getPhone());
         adminDto.setDayOfBirth(user.getDayOfBirth());

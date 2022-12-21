@@ -2,16 +2,20 @@ package com.example.SK_Project2.UserService.service.impl;
 
 import com.example.SK_Project2.UserService.domain.User;
 import com.example.SK_Project2.UserService.domain.UserStatus;
+import com.example.SK_Project2.UserService.dto.notifications.ChangedPasswordDto;
 import com.example.SK_Project2.UserService.dto.user.*;
 import com.example.SK_Project2.UserService.dto.userStatus.RankCreateDto;
 import com.example.SK_Project2.UserService.dto.userStatus.RankDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
 import com.example.SK_Project2.UserService.mapper.AdminMapper;
 import com.example.SK_Project2.UserService.mapper.RankMapper;
+import com.example.SK_Project2.UserService.messageHelper.MessageHelper;
 import com.example.SK_Project2.UserService.repository.RoleRepository;
 import com.example.SK_Project2.UserService.repository.UserRepository;
 import com.example.SK_Project2.UserService.repository.UserStatusRepository;
 import com.example.SK_Project2.UserService.service.AdminService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +27,21 @@ public class AdminServiceImpl implements AdminService {
     private UserStatusRepository userStatusRepository;
     private AdminMapper adminMapper;
     private RankMapper rankMapper;
+    private JmsTemplate jmsTemplate;
+    private MessageHelper messageHelper;
+    private String changedPasswordDestination;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                            UserStatusRepository userStatusRepository, AdminMapper adminMapper, RankMapper rankMapper) {
+    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserStatusRepository userStatusRepository,
+                            AdminMapper adminMapper, RankMapper rankMapper, JmsTemplate jmsTemplate, MessageHelper messageHelper,
+                            @Value("${destination.changedPassword}")String changedPasswordDestination) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userStatusRepository = userStatusRepository;
         this.adminMapper = adminMapper;
         this.rankMapper = rankMapper;
+        this.jmsTemplate = jmsTemplate;
+        this.messageHelper = messageHelper;
+        this.changedPasswordDestination = changedPasswordDestination;
     }
 
     @Override
@@ -45,8 +56,18 @@ public class AdminServiceImpl implements AdminService {
         User user = userRepository.findById(adminDto.getId())
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", adminDto.getId())));
 
+
+        String oldPassword = "";
+        Boolean check = false;
+        if(!(user.getPassword().equals(adminDto.getPassword()))){
+            oldPassword = user.getPassword();
+            check = true;
+        }
+
+
         user.setId(adminDto.getId());
         user.setUsername(adminDto.getUsername());
+        user.setPassword(adminDto.getPassword());
         user.setEmail(adminDto.getEmail());
         user.setPhone(adminDto.getPhone());
         user.setDayOfBirth(adminDto.getDayOfBirth());
@@ -54,6 +75,14 @@ public class AdminServiceImpl implements AdminService {
         user.setLastName(adminDto.getLastName());
 
         userRepository.save(user);
+
+        if(check) {
+            ChangedPasswordDto changedPasswordDto = new ChangedPasswordDto();
+            changedPasswordDto.setOldPassword(oldPassword);
+            changedPasswordDto.setNewPassword(adminDto.getPassword());
+            changedPasswordDto.setEmail(adminDto.getEmail());
+            jmsTemplate.convertAndSend(changedPasswordDestination, messageHelper.createTextMessage(changedPasswordDto));
+        }
 
         return adminMapper.userToAdminDto(user);
     }

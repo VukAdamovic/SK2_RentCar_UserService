@@ -3,7 +3,9 @@ package com.example.SK_Project2.UserService.service.impl;
 import com.example.SK_Project2.UserService.domain.Role;
 import com.example.SK_Project2.UserService.domain.User;
 import com.example.SK_Project2.UserService.domain.UserStatus;
-import com.example.SK_Project2.UserService.dto.DiscountDto;
+import com.example.SK_Project2.UserService.dto.notifications.ActivateEmailDto;
+import com.example.SK_Project2.UserService.dto.notifications.ChangedPasswordDto;
+import com.example.SK_Project2.UserService.dto.rental.DiscountDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 import com.example.SK_Project2.UserService.exception.NotFoundException;
@@ -31,18 +33,22 @@ public class ClientServiceImpl implements ClientService {
     private ClientMapper clientMapper;
     private JmsTemplate jmsTemplate;
     private MessageHelper messageHelper;
-    private String registrationDestination;
+    private String activateEmailDestination;
+    private String changedPasswordDestination;
 
-    public ClientServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                             UserStatusRepository userStatusRepository, ClientMapper clientMapper,
-                             JmsTemplate jmsTemplate, MessageHelper messageHelper, @Value("${destination.incrementRentCar}") String registrationDestination) {
+
+    public ClientServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserStatusRepository userStatusRepository,
+                             ClientMapper clientMapper, JmsTemplate jmsTemplate, MessageHelper messageHelper,
+                             @Value("${destination.activateEmail}")String activateEmailDestination,
+                             @Value("${destination.changedPassword}")String changedPasswordDestination) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userStatusRepository = userStatusRepository;
         this.clientMapper = clientMapper;
         this.jmsTemplate = jmsTemplate;
         this.messageHelper = messageHelper;
-        this.registrationDestination = registrationDestination;
+        this.activateEmailDestination = activateEmailDestination;
+        this.changedPasswordDestination = changedPasswordDestination;
     }
 
     @Override
@@ -73,7 +79,14 @@ public class ClientServiceImpl implements ClientService {
         client.setRole(role);
         userRepository.save(client);
 
-        jmsTemplate.convertAndSend(registrationDestination,messageHelper.createTextMessage(clientCreateDto));
+        ActivateEmailDto activateEmailDto = new ActivateEmailDto();
+
+        activateEmailDto.setFirstName(client.getFirstName());
+        activateEmailDto.setLastName(client.getLastName());
+        activateEmailDto.setEmail(client.getEmail());
+        activateEmailDto.setLink(client.getActivatedEmail());
+
+        jmsTemplate.convertAndSend(activateEmailDestination,messageHelper.createTextMessage(activateEmailDto));
         return clientMapper.userToClientDto(client);
     }
 
@@ -91,8 +104,15 @@ public class ClientServiceImpl implements ClientService {
         User user = userRepository.findById(clientDto.getId())
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", clientDto.getId())));
 
+        String oldPassword = "";
+        Boolean check = false;
+        if(!(user.getPassword().equals(clientDto.getPassword()))){
+            oldPassword = user.getPassword();
+            check = true;
+        }
         user.setId(clientDto.getId());
         user.setUsername(clientDto.getUsername());
+        user.setPassword(clientDto.getPassword());
         user.setEmail(clientDto.getEmail());
         user.setPhone(clientDto.getPhone());
         user.setDayOfBirth(clientDto.getDayOfBirth());
@@ -101,6 +121,15 @@ public class ClientServiceImpl implements ClientService {
         user.setPassport(clientDto.getPassport());
 
         userRepository.save(user);
+
+        if(check) {
+            ChangedPasswordDto changedPasswordDto = new ChangedPasswordDto();
+            changedPasswordDto.setOldPassword(oldPassword);
+            changedPasswordDto.setNewPassword(clientDto.getPassword());
+            changedPasswordDto.setEmail(clientDto.getEmail());
+            jmsTemplate.convertAndSend(changedPasswordDestination, messageHelper.createTextMessage(changedPasswordDto));
+        }
+
 
         return clientMapper.userToClientDto(user);
     }
@@ -128,7 +157,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void decrementRentCar(Long id, Integer days) {
+    public void decrementRentCar(Long id, Integer days) { // ovo zove onaj lisener a ne controller da znas
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %d does not exists.", id)));
 
@@ -163,6 +192,25 @@ public class ClientServiceImpl implements ClientService {
                 .get()
                 .getDiscount();
         return new DiscountDto(discount);
+    }
+
+    @Override
+    public Boolean verificationEmail(String link) {
+        List<String> find = new ArrayList<>();
+        userRepository.findAll()
+                .forEach(user -> {
+                            if (user.getActivatedEmail().equals(link)) {
+                                user.setActivatedEmail("Activated");
+                                find.add("1");
+                            }
+                        }
+                );
+
+        if(find.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 

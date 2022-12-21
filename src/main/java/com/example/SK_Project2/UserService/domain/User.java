@@ -21,6 +21,7 @@ public class User {
     private String employmentDay;
     private boolean forbidden;
     private String rank;
+    private String activatedEmail;
 
     @ManyToOne
     private Role role;
@@ -146,5 +147,14 @@ public class User {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+
+    public String getActivatedEmail() {
+        return activatedEmail;
+    }
+
+    public void setActivatedEmail(String activatedEmail) {
+        this.activatedEmail = activatedEmail;
     }
 }

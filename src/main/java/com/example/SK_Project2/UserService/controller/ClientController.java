@@ -39,6 +39,13 @@ public class ClientController {
     public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
+
+
+    @PostMapping("/registration/{link}")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
+        return new ResponseEntity<>(clientService.verificationEmail(link), HttpStatus.OK);
+    }
     //---------------------
 
     @DeleteMapping("/{id}")

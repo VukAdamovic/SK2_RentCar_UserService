@@ -9,6 +9,7 @@ import com.example.SK_Project2.UserService.repository.UserStatusRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ManagerMapper {
@@ -25,6 +26,7 @@ public class ManagerMapper {
 
         managerDto.setId(user.getId());
         managerDto.setUsername(user.getUsername());
+        managerDto.setPassword(user.getPassword());//dodao
         managerDto.setEmail(user.getEmail());
         managerDto.setPhone(user.getPhone());
         managerDto.setDayOfBirth(user.getDayOfBirth());
@@ -53,6 +55,11 @@ public class ManagerMapper {
         user.setPassport(null);
         user.setRentCarTotalDuration(null);
         user.setRole(roleRepository.findRoleByName("ROLE_MANAGER").get());
+
+        //Random string - link
+        UUID uuidObj = UUID.randomUUID();
+        String link = uuidObj.toString().replaceAll("_","");
+        user.setActivatedEmail(link);
 
         return user;
     }

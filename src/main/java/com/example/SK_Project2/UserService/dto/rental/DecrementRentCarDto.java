@@ -1,12 +1,13 @@
-package com.example.SK_Project2.UserService.dto;
+package com.example.SK_Project2.UserService.dto.rental;
 
-public class IncrementRentCarDto {
+public class DecrementRentCarDto {
     private Long id;
     private Integer days;
 
-    public IncrementRentCarDto() {}
+    public DecrementRentCarDto() {
+    }
 
-    public IncrementRentCarDto(Long id, Integer days) {
+    public DecrementRentCarDto(Long id, Integer days) {
         this.id = id;
         this.days = days;
     }

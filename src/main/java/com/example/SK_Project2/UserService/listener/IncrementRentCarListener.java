@@ -1,6 +1,6 @@
 package com.example.SK_Project2.UserService.listener;
 
-import com.example.SK_Project2.UserService.dto.IncrementRentCarDto;
+import com.example.SK_Project2.UserService.dto.rental.IncrementRentCarDto;
 import com.example.SK_Project2.UserService.messageHelper.MessageHelper;
 import com.example.SK_Project2.UserService.service.ClientService;
 import org.springframework.jms.annotation.JmsListener;
