@@ -40,12 +40,6 @@ public class ClientController {
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
 
-
-    @PostMapping("/registration/{link}")
-    @CheckSecurity(roles = {"ROLE_CLIENT"})
-    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
-        return new ResponseEntity<>(clientService.verificationEmail(link), HttpStatus.OK);
-    }
     //---------------------
 
     @DeleteMapping("/{id}")
@@ -54,9 +48,18 @@ public class ClientController {
         return new ResponseEntity<>(clientService.delete(id), HttpStatus.OK);
     }
 
+
+    //---------------------
+
     @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<ClientDto> updateClient(@RequestHeader("authorization") String authorization,@RequestBody ClientDto clientDto) {
         return new ResponseEntity<>(clientService.update(clientDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/registration/{link}")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
+        return new ResponseEntity<>(clientService.verificationEmail(link), HttpStatus.OK);
     }
 }

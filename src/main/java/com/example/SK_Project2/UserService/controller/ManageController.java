@@ -40,11 +40,7 @@ public class ManageController {
         return new ResponseEntity<>(managerService.add(managerCreateDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/registration/{link}")
-    @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
-        return new ResponseEntity<>(managerService.verificationEmail(link), HttpStatus.OK);
-    }
+
     //---------------------
 
     @DeleteMapping("/{id}")
@@ -53,10 +49,18 @@ public class ManageController {
         return new ResponseEntity<>(managerService.delete(id), HttpStatus.OK);
     }
 
+    //---------------------
+
     @PutMapping
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_MANAGER"})
     public ResponseEntity<ManagerDto> updateManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerDto managerDto) {
         return new ResponseEntity<>(managerService.update(managerDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/registration/{link}")
+    @CheckSecurity(roles = {"ROLE_MANAGER"})
+    public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
+        return new ResponseEntity<>(managerService.verificationEmail(link), HttpStatus.OK);
     }
 
 }
