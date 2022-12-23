@@ -35,7 +35,7 @@ public class ManageController {
     //---------------------
 
     @PostMapping("/registration")
-    @CheckSecurity(roles = {"ROLE_MANAGER"})
+    @CheckSecurity(roles = {"ROLE_MANAGER","ROLE_ADMIN"})
     public ResponseEntity<ManagerDto> registerManager(@RequestHeader("authorization") String authorization,@RequestBody ManagerCreateDto managerCreateDto) {
         return new ResponseEntity<>(managerService.add(managerCreateDto), HttpStatus.CREATED);
     }

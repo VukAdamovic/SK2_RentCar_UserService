@@ -35,7 +35,7 @@ public class ClientController {
     //---------------------
 
     @PostMapping("/registration")
-    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    @CheckSecurity(roles = {"ROLE_CLIENT","ROLE_ADMIN"})
     public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
