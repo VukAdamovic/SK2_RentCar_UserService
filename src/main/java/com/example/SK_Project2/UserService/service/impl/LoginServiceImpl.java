@@ -44,6 +44,7 @@ public class LoginServiceImpl implements LoginService {
         Claims claims = Jwts.claims();
         claims.put("id", user.getId());
         claims.put("role", user.getRole().getName());
+        claims.put("email",user.getEmail());
         claims.put("forbidden",user.isForbidden());
 
         //Generate token
