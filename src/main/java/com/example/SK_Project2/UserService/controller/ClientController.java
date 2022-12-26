@@ -1,6 +1,7 @@
 package com.example.SK_Project2.UserService.controller;
 
 
+import com.example.SK_Project2.UserService.dto.rental.DiscountDto;
 import com.example.SK_Project2.UserService.dto.user.ClientCreateDto;
 import com.example.SK_Project2.UserService.dto.user.ClientDto;
 import com.example.SK_Project2.UserService.security.CheckSecurity;
@@ -31,6 +32,11 @@ public class ClientController {
     @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<ClientDto> getClientById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(clientService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/discount")
+    public ResponseEntity<DiscountDto> getDiscount(@PathVariable("id") Long id){
+        return new ResponseEntity<>(clientService.findDiscount(id),HttpStatus.OK);
     }
     //---------------------
 
