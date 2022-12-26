@@ -6,10 +6,6 @@ public class DiscountDto {
     public DiscountDto() {
     }
 
-    public DiscountDto(Integer discount) {
-        this.discount = discount;
-    }
-
     public Integer getDiscount() {
         return discount;
     }
