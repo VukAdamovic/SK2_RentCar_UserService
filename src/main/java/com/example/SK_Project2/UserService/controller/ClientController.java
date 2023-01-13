@@ -63,7 +63,7 @@ public class ClientController {
         return new ResponseEntity<>(clientService.update(clientDto), HttpStatus.OK);
     }
 
-    @PutMapping("/registration/{link}")
+    @GetMapping("/registration/{link}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
         return new ResponseEntity<>(clientService.verificationEmail(link), HttpStatus.OK);

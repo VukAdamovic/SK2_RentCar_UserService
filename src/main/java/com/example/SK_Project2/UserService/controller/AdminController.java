@@ -33,7 +33,7 @@ public class AdminController {
         return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
     }
 
-    @PutMapping("/forbid/{id}")
+    @GetMapping("/forbid/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Boolean> forbid(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id) {
         return new ResponseEntity<>(adminService.forbid(id), HttpStatus.OK);
