@@ -130,20 +130,13 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Boolean verificationEmail(String link) {
-        List<String> find = new ArrayList<>();
-        userRepository.findAll()
-                .forEach(user -> {
-                            if (user.getActivatedEmail().equals(link)) {
-                                user.setActivatedEmail("Activated");
-                                find.add("1");
-                            }
-                        }
-                );
+        User user = userRepository.findUserByActivatedEmail(link).
+                orElseThrow(() -> new NotFoundException(String.format("User with link: %d not found.", link)));
 
-        if(find.isEmpty()){
-            return false;
-        }else{
-            return true;
-        }
+        user.setActivatedEmail("Activated");
+
+        userRepository.save(user);
+
+        return true;
     }
 }

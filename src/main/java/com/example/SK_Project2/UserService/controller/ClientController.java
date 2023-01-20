@@ -29,7 +29,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<ClientDto> getClientById(@RequestHeader("authorization") String authorization,@PathVariable("id") Long id){
         return new ResponseEntity<>(clientService.findById(id), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class ClientController {
     //---------------------
 
     @PostMapping("/registration")
-    @CheckSecurity(roles = {"ROLE_CLIENT","ROLE_ADMIN"})
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<ClientDto> registerClient(@RequestHeader("authorization") String authorization,@RequestBody ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(clientService.add(clientCreateDto), HttpStatus.CREATED);
     }
