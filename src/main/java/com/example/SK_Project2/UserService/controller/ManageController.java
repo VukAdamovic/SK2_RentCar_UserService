@@ -57,10 +57,9 @@ public class ManageController {
         return new ResponseEntity<>(managerService.update(managerDto), HttpStatus.OK);
     }
 
-    @PutMapping("/registration/{link}")
+    @GetMapping("/registration/{link}")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<Boolean> verificationEmail(@RequestHeader("authorization") String authorization,@PathVariable("link") String link) {
         return new ResponseEntity<>(managerService.verificationEmail(link), HttpStatus.OK);
     }
-
 }
